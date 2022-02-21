@@ -58,3 +58,27 @@ a {
   color: black;
   font-weight: 600;
 }
+
+@media screen and (min-width: 750px) {
+  #root {
+    grid-template-columns: auto auto;
+    gap: 30px;
+    padding: 30px;
+  }
+  .episode-container {
+    margin: 0;
+    padding: 30px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  #root {
+    grid-template-columns: auto auto auto;
+    gap: 30px;
+    padding: 30px;
+  }
+  .episode-container {
+    margin: 0;
+    padding: 30px;
+  }
+}
