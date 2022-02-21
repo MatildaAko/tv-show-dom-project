@@ -1,3 +1,60 @@
+:root {
+  --salmon-pink: #ffefeb;
+  --light-yellow: #fafae4;
+  --orange: #d68c45;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--light-yellow);
+}
+
 #root {
-  color: red;
+  background: url(./images/cube-background.png);
+  display: grid;
+  grid-template-columns: auto;
+}
+
+.episode-container {
+  margin: 60px;
+  margin-bottom: 0;
+  background: var(--salmon-pink);
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 0 5px 2px var(--orange);
+}
+
+.episode-name {
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+/* h2 {
+} */
+
+.episode-info {
+  margin-bottom: 15px;
+}
+
+img {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 18px;
+  text-align: left;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
 }
