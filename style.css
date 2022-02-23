@@ -13,6 +13,12 @@ body {
   background: var(--light-yellow);
 }
 
+.header {
+  background-color: var(--salmon-pink);
+  padding: 20px;
+  border-bottom: var(--orange) solid 1px;
+}
+
 #root {
   background: url(./images/cube-background.png);
   display: grid;
@@ -28,7 +34,7 @@ body {
   box-shadow: 0 0 5px 2px var(--orange);
 }
 
-.episode-name {
+.episode-name-wrapper {
   margin-bottom: 20px;
 }
 
