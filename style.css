@@ -65,26 +65,40 @@ a {
   font-weight: 600;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 600px) {
   #root {
-    grid-template-columns: auto auto;
-    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     padding: 30px;
   }
+
   .episode-container {
     margin: 0;
     padding: 30px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+  h2 {
+    font-size: 20px;
   }
 }
 
 @media screen and (min-width: 1000px) {
   #root {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 30px;
     padding: 30px;
   }
   .episode-container {
     margin: 0;
     padding: 30px;
+  }
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 25px;
   }
 }
