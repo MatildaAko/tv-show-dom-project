@@ -62,6 +62,13 @@ a {
   font-weight: 600;
 }
 
+.display-shows {
+  display: flex;
+  margin: 20px;
+}
+.show-link, a {
+  cursor: pointer;
+}
 @media screen and (min-width: 600px) {
   #root {
     /* grid-template-columns: 1fr 1fr; */

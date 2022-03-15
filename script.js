@@ -8,8 +8,20 @@ const shows = getAllShows();
 
 function setup() {
   selectShow(shows);
+  searchBox.addEventListener("input", showSearch);
   displayShowsAndEpisodes(shows);
   episodeSelect.style.display = "none";
+}
+function addBackButton() {
+  let goBack = document.createElement("a");
+  goBack.innerHTML = "Back to All Shows";
+  displayNumberOfShows.appendChild(goBack);
+  goBack.addEventListener("click", (e) => {
+    e.preventDefault();
+    rootElem.innerHTML = "";
+    showSelect.style.display = "block";
+    return setup();
+  });
 }
 
 let getEpisodesFromApi = function (showId) {
@@ -21,6 +33,9 @@ let getEpisodesFromApi = function (showId) {
       rootElem.innerHTML = "";
       displayShowsAndEpisodes(allEpisodes);
       selectEpisode(allEpisodes);
+      searchBox.addEventListener("input", episodeSearch);
+      
+      addBackButton();
     })
     .catch((error) => console.error(error, "This can't be displayed"));
 };
@@ -37,9 +52,23 @@ function displayShowsAndEpisodes(showOrEpisodes) {
     rootElem.innerHTML += displayEpisode(showOrEpisode);
     if (showOrEpisodes === shows) {
       displayNumberOfShows.innerHTML = `<p>Displaying ${showOrEpisodes.length} shows</p>`;
+      // console.log(h1);
     } else {
       displayNumberOfShows.innerHTML = `<p>Displaying ${showOrEpisodes.length} episodes</p>`;
     }
+  });
+  let h1 = rootElem.querySelectorAll(".show-link");
+  h1.forEach((showTitle) => {
+    shows.forEach((show) => {
+      if (show.name.includes(showTitle.innerHTML)) {
+        const showId = show.id;
+        showTitle.addEventListener("click", () => {
+          getEpisodesFromApi(showId);
+          showSelect.style.display = "none";
+          
+        });
+      }
+    });
   });
 }
 
@@ -48,27 +77,63 @@ function padNumbers(episode) {
 }
 
 //creates the html layout for each episode
-function displayEpisode(episode) {
+
+function displayEpisode(showOrEpisode) {
   let picture;
   let numbers;
-  if (episode.image == undefined) {
+  let rating;
+  let genre;
+  let status;
+  let runtime;
+  let showName;
+  if (showOrEpisode.image == undefined) {
     picture = "./images/no-picture-available-icon-1.jpeg";
   } else {
-    picture = episode.image.medium;
+    picture = showOrEpisode.image.medium;
   }
-  let summary = episode.summary;
+  let summary = showOrEpisode.summary;
   if (summary == undefined) {
     summary = "Sorry, there is no summary available.";
   }
-  if (episode.season == undefined) {
+  if (showOrEpisode.season == undefined) {
     numbers = "";
+    rating = `<h4>Rated:</h4>${showOrEpisode.rating.average}`;
+    genre = `<h4>Genres:</h4>${showOrEpisode.genres}`;
+    status = `<h4>Status:</h4>${showOrEpisode.status}`;
+    runtime = `<h4>Runtime:</h4>${showOrEpisode.runtime}`;
+    showDisplay = `display-shows`;
+    showName = `<h1 class="episode-name show-link">${showOrEpisode.name}</h1>`;
   } else {
-    numbers = `<h2>${padNumbers(episode)}</h2>`;
+    numbers = `<h2>${padNumbers(showOrEpisode)}</h2>`;
+    rating = "";
+    genre = "";
+    status = "";
+    runtime = "";
+    showDisplay = "";
+    showName = `<h1 class="episode-name">${showOrEpisode.name}</h1>`;
   }
-  return `<div class="episode-container"><div class="episode-name-wrapper"><h1 class="episode-name">${episode.name}</h1>${numbers}</div><div class="episode-info"><img src=${picture}><p class="summary">${summary}</p></div><div class="data-origin"><p>This data originally came from <a href="${episode.url}">TVMaze.com</a></p></div></div>`;
+
+  return `<div class="episode-container ${showDisplay}"><div class="episode-name-wrapper">${showName}${numbers}<img src=${picture}></div><div class="episode-info"><p class="summary">${summary.substring(
+    0,
+    150
+  )}</p></div><div><div class="extra-info">${rating}${genre}${status}${runtime}</div><div class="data-origin"><p>This data originally came from <a href="${
+    showOrEpisode.url
+  }">TVMaze.com</a></p></div></div></div>`;
 }
 
 //SEARCH
+function showSearch(e) {
+  const searchString = e.target.value.toLowerCase();
+  const filteredShows = shows.filter((show) => {
+    return (
+      show.name.toLowerCase().includes(searchString) ||
+      show.genres.forEach((genre) => genre.toLowerCase().includes(searchString)) ||
+      show.summary.toLowerCase().includes(searchString)
+    );
+  });
+  displayCorrectEpisodes(filteredShows);
+  displayNumberOfShows.innerHTML = `<p>Displaying ${filteredShows.length}/${shows.length} shows</p>`;
+}
 
 function episodeSearch(e) {
   const searchString = e.target.value.toLowerCase();
@@ -78,7 +143,6 @@ function episodeSearch(e) {
   displayCorrectEpisodes(filteredEpisodes);
   displayNumberOfShows.innerHTML = `<p>Displaying ${filteredEpisodes.length}/${allEpisodes.length} episodes</p>`;
 }
-searchBox.addEventListener("input", episodeSearch);
 
 //SELECT
 function selectShow(shows) {
@@ -99,31 +163,33 @@ showSelect.addEventListener("change", () => {
 
   shows.forEach((show) => {
     if (show.name.includes(selectedShow)) {
-      console.log(selectedShow);
-
       const showId = show.id;
-
       getEpisodesFromApi(showId);
     }
-  }); if (selectedShow === "All Shows") {
-      console.log(selectedShow);
-      rootElem.innerHTML = "";
-      displayShowsAndEpisodes(shows)
-    }  
+  });
+  if (selectedShow === "All Shows") {
+    rootElem.innerHTML = "";
+    selectShow(shows);
+    searchBox.addEventListener("input", showSearch);
+    displayShowsAndEpisodes(shows);
+    episodeSelect.style.display = "none";
+  }
 });
 
 episodeSelect.addEventListener("change", () => {
   const selectedEpisode = episodeSelect.options[episodeSelect.selectedIndex].value;
-
+  
   if (selectedEpisode === "All Episodes") {
     displayCorrectEpisodes(allEpisodes);
     displayNumberOfShows.innerHTML = `<p>Displaying ${allEpisodes.length} episodes</p>`;
+    addBackButton();
   } else {
     let selected = allEpisodes.filter((episode) => {
       return selectedEpisode.includes(padNumbers(episode));
     });
     displayCorrectEpisodes(selected);
     displayNumberOfShows.innerHTML = "";
+    addBackButton();
   }
 });
 
