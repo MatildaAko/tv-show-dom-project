@@ -34,7 +34,7 @@ let getEpisodesFromApi = function (showId) {
       displayShowsAndEpisodes(allEpisodes);
       selectEpisode(allEpisodes);
       searchBox.addEventListener("input", episodeSearch);
-      
+
       addBackButton();
     })
     .catch((error) => console.error(error, "This can't be displayed"));
@@ -65,7 +65,6 @@ function displayShowsAndEpisodes(showOrEpisodes) {
         showTitle.addEventListener("click", () => {
           getEpisodesFromApi(showId);
           showSelect.style.display = "none";
-          
         });
       }
     });
@@ -113,12 +112,20 @@ function displayEpisode(showOrEpisode) {
     showName = `<h1 class="episode-name">${showOrEpisode.name}</h1>`;
   }
 
-  return `<div class="episode-container ${showDisplay}"><div class="episode-name-wrapper">${showName}${numbers}<img src=${picture}></div><div class="episode-info"><p class="summary">${summary.substring(
-    0,
-    150
-  )}</p></div><div><div class="extra-info">${rating}${genre}${status}${runtime}</div><div class="data-origin"><p>This data originally came from <a href="${
-    showOrEpisode.url
-  }">TVMaze.com</a></p></div></div></div>`;
+  return `
+  <div class="episode-info-wrapper">
+    <div class="episode-container ${showDisplay}">
+      <div class="episode-name-wrapper">${showName}${numbers}<img src=${picture} />
+      </div>
+      <p class="summary">${summary.substring(0, 150)}...</p>
+      <div class="extra-info">${rating}${genre}${status}${runtime}
+      </div>
+    </div>
+    <div class="data-origin">
+      <p>This data originally came from <a href="${showOrEpisode.url}">TVMaze.com</a>
+      </p>
+    </div>
+  </div>`;
 }
 
 //SEARCH
@@ -178,7 +185,7 @@ showSelect.addEventListener("change", () => {
 
 episodeSelect.addEventListener("change", () => {
   const selectedEpisode = episodeSelect.options[episodeSelect.selectedIndex].value;
-  
+
   if (selectedEpisode === "All Episodes") {
     displayCorrectEpisodes(allEpisodes);
     displayNumberOfShows.innerHTML = `<p>Displaying ${allEpisodes.length} episodes</p>`;

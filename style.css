@@ -22,20 +22,22 @@ body {
 #root {
   background: url(./images/cube-background.png);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
 }
 
-.episode-container {
-  margin: 60px;
+.episode-info-wrapper {
+  margin: 15px;
   margin-bottom: 0;
   background: var(--salmon-pink);
-  padding: 30px;
+  padding: 20px;
   text-align: center;
   box-shadow: 0 0 5px 2px var(--orange);
 }
 
 .episode-name-wrapper {
   margin-bottom: 20px;
+  padding: 20px;
+  padding-left: 0;
 }
 
 h1 {
@@ -43,6 +45,7 @@ h1 {
 }
 
 .episode-info {
+  padding: 20px;
   margin-bottom: 15px;
 }
 
@@ -64,15 +67,15 @@ a {
 
 .display-shows {
   display: flex;
-  margin: 20px;
+  align-items: center;
 }
 .show-link, a {
   cursor: pointer;
 }
-@media screen and (min-width: 600px) {
-  #root {
+/* @media screen and (min-width: 600px) {
+  #root { */
     /* grid-template-columns: 1fr 1fr; */
-    gap: 20px;
+    /* gap: 20px;
     padding: 30px;
   }
 
@@ -87,12 +90,12 @@ a {
   h2 {
     font-size: 20px;
   }
-}
+} */
 
-@media screen and (min-width: 1000px) {
-  #root {
+/* @media screen and (min-width: 1000px) {
+  #root { */
     /* grid-template-columns: 1fr 1fr 1fr; */
-    gap: 30px;
+    /* gap: 30px;
     padding: 30px;
   }
   .episode-container {
@@ -105,4 +108,4 @@ a {
   h2 {
     font-size: 25px;
   }
-}
+} */
