@@ -94,6 +94,7 @@ function displayEpisode(showOrEpisode) {
   if (summary == undefined) {
     summary = "Sorry, there is no summary available.";
   }
+  
   if (showOrEpisode.season == undefined) {
     numbers = "";
     rating = `<h4>Rated:</h4>${showOrEpisode.rating.average}`;
@@ -114,17 +115,15 @@ function displayEpisode(showOrEpisode) {
 
   return `
   <div class="episode-info-wrapper">
+  <div class="episode-name-wrapper">${showName}${numbers}
     <div class="episode-container ${showDisplay}">
-      <div class="episode-name-wrapper">${showName}${numbers}<img src=${picture} />
-      </div>
-      <p class="summary">${summary.substring(0, 150)}...</p>
-      <div class="extra-info">${rating}${genre}${status}${runtime}
+      <img class="episode-image" src=${picture} />
+      <p class="summary">${summary.substring(3, 150)}</p>
+      <div class="extra-info">${rating}${genre.split(",").join(", ")}${status}${runtime}
       </div>
     </div>
-    <div class="data-origin">
-      <p>This data originally came from <a href="${showOrEpisode.url}">TVMaze.com</a>
-      </p>
-    </div>
+  </div>
+  <p class="data-origin">This data originally came from <a href="${showOrEpisode.url}">TVMaze.com</a></p>
   </div>`;
 }
 
