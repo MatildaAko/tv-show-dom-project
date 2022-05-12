@@ -22,16 +22,17 @@ body {
 #root {
   background: url(./images/cube-background.png);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  padding: 10px;
 }
 
 .episode-image {
   width: 180px;
+  margin: 0;
 }
 
 .episode-info-wrapper {
-  margin: 15px;
-  margin-bottom: 0;
+  margin: 8px;
   background: var(--salmon-pink);
   padding: 20px;
   text-align: center;
@@ -81,7 +82,7 @@ a {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  width: fit-content;
+  width: 90%;
 }
 
 .summary {
@@ -95,6 +96,7 @@ a {
 
 .show-link, a {
   cursor: pointer;
+  margin-bottom: 15px;
 }
 /* @media screen and (min-width: 600px) {
   #root { */

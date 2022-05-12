@@ -47,14 +47,25 @@ function displayCorrectEpisodes(episodes) {
 //ADD EPISODES
 //displays the episode on the page after it's html has been created
 
-function displayShowsAndEpisodes(showOrEpisodes) {
-  showOrEpisodes.forEach((showOrEpisode) => {
-    rootElem.innerHTML += displayEpisode(showOrEpisode);
+function displayShowsAndEpisodes(showOrEpisodes, start = 0) {
+  let end = start + 12;
+  let totalShowOrEpisodes = showOrEpisodes.length;
+  showOrEpisodes.forEach((showOrEpisode, index) => {
+    if (index >= start && index < end && index <= totalShowOrEpisodes) {
+      rootElem.innerHTML += displayEpisode(showOrEpisode);
+      start++;
+    }
+
     if (showOrEpisodes === shows) {
       displayNumberOfShows.innerHTML = `<p>Displaying ${showOrEpisodes.length} shows</p>`;
-      // console.log(h1);
     } else {
       displayNumberOfShows.innerHTML = `<p>Displaying ${showOrEpisodes.length} episodes</p>`;
+    }
+  });
+  //Adds infinite scroll
+  window.addEventListener("scroll", () => {
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+      displayShowsAndEpisodes(showOrEpisodes, (start += 12));
     }
   });
   let h1 = rootElem.querySelectorAll(".show-link");
@@ -70,6 +81,7 @@ function displayShowsAndEpisodes(showOrEpisodes) {
     });
   });
 }
+
 
 function padNumbers(episode) {
   return `S${episode.season.toString().padStart(2, 0)}E${episode.number.toString().padStart(2, 0)}`;
@@ -94,7 +106,7 @@ function displayEpisode(showOrEpisode) {
   if (summary == undefined) {
     summary = "Sorry, there is no summary available.";
   }
-  
+
   if (showOrEpisode.season == undefined) {
     numbers = "";
     rating = `<h4>Rated:</h4>${showOrEpisode.rating.average}`;
